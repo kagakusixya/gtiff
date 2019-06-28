@@ -17,7 +17,7 @@ def main():
         exception_word.append(args[i+1])
 
     print(exception_word)
-    sniff(prn=Sniff_Arp)
+    sniff(filter="arp",prn=Sniff_Arp)
 
 
 def Sniff_Arp(packet):
@@ -27,12 +27,15 @@ def Sniff_Arp(packet):
 
     for i in range(len(x.keys())):
         try:
-            st = str(packet[IP].src)
+            st = str(packet[Ether].op)
         except IndexError:
             frag = 1
             print("err")
             break
-
+        except AttributeError:
+            frag = 1
+            print("err")
+            break
         if "init"== x.keys()[i]:
             frag = 3
 
